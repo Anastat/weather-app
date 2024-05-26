@@ -1,0 +1,19 @@
+.w-button {
+  font-family: inherit;
+  display: flex;
+  border: 1px solid #704c5e;
+  border-radius: 3px;
+  height: 2rem;
+  background-color: #f1c8db;
+  color: #704c5e;
+  padding: 0.2rem 0.3rem;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  flex-grow: 1;
+}
+
+.w-button {
+  border: 2px solid #704c5e;
+  outline: none;
+}

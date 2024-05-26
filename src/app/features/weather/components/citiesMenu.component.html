@@ -1,0 +1,7 @@
+<ul *ngIf="cities.length > 0" class="w-menu">
+  <li *ngFor="let city of cities" (click)="onCitySelect(city)">
+    <span>{{ city.name }}</span>
+    <span>{{ city.sys.country }}</span>
+    <span>{{ city.coord.lat }} {{ city.coord.lon }}</span>
+  </li>
+</ul>

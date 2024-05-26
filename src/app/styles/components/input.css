@@ -1,0 +1,13 @@
+.w-input {
+  display: flex;
+  flex-grow: 1;
+  border: 1px solid #704c5e;
+  border-radius: 3px;
+  height: 2rem;
+  padding: 0 0.5rem;
+}
+
+.w-input:focus-visible {
+  border: 2px solid #704c5e;
+  outline: none;
+}

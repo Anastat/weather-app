@@ -1,0 +1,22 @@
+<article>
+  <form class="search-form" (submit)="getWeather()" autocomplete="off">
+    <div class="input-wrapper">
+      <input
+        type="text"
+        name="city"
+        placeholder="Enter city name"
+        class="w-input"
+        [(ngModel)]="city"
+        ngDefaultControl
+        [ngModelOptions]="{ standalone: true }"
+      />
+      <cities-menu
+        *ngIf="showMenu && cities?.length > 0"
+        [cities]="cities"
+        (selectCity)="onSelectCity($event)"
+        class="dropdown"
+      ></cities-menu>
+    </div>
+    <button type="submit" class="w-button">Search</button>
+  </form>
+</article>
