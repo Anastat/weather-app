@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class WeatherService {
   private apiKey = environment.weatherApiKey;
-  private api = 'http://api.openweathermap.org/data/2.5';
+  private api = 'https://api.openweathermap.org/data/2.5';
 
   constructor(private http: HttpClient) {}
 
