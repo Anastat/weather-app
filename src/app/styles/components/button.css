@@ -1,9 +1,10 @@
 .w-button {
   font-family: inherit;
+  font-size: 16px;
   display: flex;
   border: 1px solid #704c5e;
   border-radius: 3px;
-  height: 2rem;
+  height: 3rem;
   background-color: #f1c8db;
   color: #704c5e;
   padding: 0.2rem 0.3rem;
@@ -13,7 +14,7 @@
   flex-grow: 1;
 }
 
-.w-button {
+.w-button:focus-visible {
   border: 2px solid #704c5e;
   outline: none;
 }

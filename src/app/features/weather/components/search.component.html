@@ -1,12 +1,12 @@
 <article>
-  <form class="search-form" (submit)="getWeather()" autocomplete="off">
+  <form class="search-form" (submit)="getCityList()" autocomplete="off">
     <div class="input-wrapper">
       <input
         type="text"
         name="city"
         placeholder="Enter city name"
         class="w-input"
-        [(ngModel)]="city"
+        [(ngModel)]="cityName"
         ngDefaultControl
         [ngModelOptions]="{ standalone: true }"
       />

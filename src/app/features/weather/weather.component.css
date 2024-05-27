@@ -2,11 +2,25 @@
   display: flex;
   flex-direction: column;
   align-self: center;
-  width: 80vw;
+  width: 40rem;
   padding: 3rem;
   box-shadow: 0px 0px 20px 0px rgba(44, 45, 46, 0.08);
   border-radius: 3px;
   margin-top: 1.25rem;
+  gap: 2rem;
+}
+
+.weather-card > fieldset {
+  display: inline-flex;
+  border: 1px solid #704c5e;
+  border-radius: 3px;
+  gap: 1rem;
+}
+
+.weather-temp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 @media (max-width: 480px) {

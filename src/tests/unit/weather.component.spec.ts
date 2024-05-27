@@ -1,12 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { WeatherComponent } from './weather.component';
-import { WeatherService } from '../weather.service';
+import { FormsModule } from '@angular/forms';
+import { WeatherComponent } from '../../app/features/weather/weather.component';
+import { WeatherService } from '../../app/services/weather.service';
+import { CitySearchComponent } from '../../app/features/weather/components/search.component';
+import { CitiesMenu } from '../../app/features/weather/components/citiesMenu.component';
 import { of } from 'rxjs';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { WeatherInputComponent } from './weather-input.component';
-import { WeatherSelectionComponent } from './weather-selection.component';
-import { WeatherDisplayComponent } from './weather-display.component';
-import { By } from '@angular/platform-browser';
 
 describe('WeatherComponent', () => {
   let component: WeatherComponent;
@@ -15,18 +13,11 @@ describe('WeatherComponent', () => {
 
   beforeEach(async () => {
     const weatherServiceSpy = jasmine.createSpyObj('WeatherService', [
-      'searchCities',
       'getWeatherByCityId',
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        WeatherInputComponent,
-        WeatherSelectionComponent,
-        WeatherDisplayComponent,
-        WeatherComponent,
-      ],
+      imports: [FormsModule, CitySearchComponent, CitiesMenu],
       providers: [{ provide: WeatherService, useValue: weatherServiceSpy }],
     }).compileComponents();
 
@@ -41,62 +32,53 @@ describe('WeatherComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should search for cities and display selection', () => {
-    const mockCities = {
-      list: [
-        { id: 1, name: 'London', country: 'UK' },
-        { id: 2, name: 'London', country: 'Canada' },
-      ],
-    };
-
-    weatherService.searchCities.and.returnValue(of(mockCities));
-
-    fixture.detectChanges();
-
-    const inputComponent = fixture.debugElement.query(
-      By.directive(WeatherInputComponent)
-    ).componentInstance;
-    inputComponent.search.emit('London');
-
-    fixture.detectChanges();
-
-    expect(component.cities).toEqual(mockCities.list);
-  });
-
-  it('should fetch and display weather data for selected city', () => {
-    const mockWeather = {
-      name: 'London',
-      main: { temp: 20 },
-      weather: [{ description: 'clear sky' }],
-    };
-
-    const selectedCity = { id: 1, name: 'London', country: 'UK' };
-
-    weatherService.getWeatherByCityId.and.returnValue(of(mockWeather));
-
-    component.getWeather(selectedCity);
-
-    fixture.detectChanges();
-
-    expect(component.weather).toEqual(mockWeather);
-  });
-
-  it('should load saved city from localStorage on init', () => {
-    const savedCity = { id: 1, name: 'London', country: 'UK' };
-    localStorage.setItem('selectedCity', JSON.stringify(savedCity));
-
-    weatherService.getWeatherByCityId.and.returnValue(
-      of({
-        name: 'London',
-        main: { temp: 20 },
-        weather: [{ description: 'clear sky' }],
-      })
-    );
+  it('should load selectedUnits from localStorage', () => {
+    spyOn(localStorage, 'getItem').and.callFake((key: string) => {
+      return key === 'selectedUnits' ? 'imperial' : null;
+    });
 
     component.ngOnInit();
+    expect(component.selectedUnits).toBe('imperial');
+  });
 
-    expect(component.weatherService.getWeatherByCityId).toHaveBeenCalledWith(
-      savedCity.id
+  it('should save selectedUnits to localStorage', () => {
+    spyOn(localStorage, 'setItem');
+
+    component.selectUnits('imperial');
+    expect(localStorage.setItem).toHaveBeenCalledWith(
+      'selectedUnits',
+      'imperial'
     );
+  });
+
+  it('should call weatherService.getWeatherByCityId when getWeather is called', () => {
+    const mockCity = { id: 123 };
+    const mockWeatherData = {
+      name: 'Test City',
+      main: { temp: 25 },
+      weather: [{ description: 'sunny' }],
+    };
+    weatherService.getWeatherByCityId.and.returnValue(of(mockWeatherData));
+
+    component.getWeather(mockCity.id);
+
+    expect(weatherService.getWeatherByCityId).toHaveBeenCalledWith(
+      123,
+      'metric'
+    );
+  });
+
+  it('should update weather property with data from weatherService', () => {
+    const mockCity = { id: 123 };
+    const mockWeatherData = {
+      name: 'Test City',
+      main: { temp: 25 },
+      weather: [{ description: 'sunny' }],
+    };
+    weatherService.getWeatherByCityId.and.returnValue(of(mockWeatherData));
+
+    component.getWeather(mockCity.id);
+
+    expect(component.weather).toEqual(mockWeatherData);
   });
 });

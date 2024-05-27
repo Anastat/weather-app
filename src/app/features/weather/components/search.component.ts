@@ -14,7 +14,7 @@ import { WeatherService } from '../../../services/weather.service';
 export class CitySearchComponent {
   @Output() selectCity = new EventEmitter<any>();
 
-  city: string = '';
+  cityName: string = '';
   cities: any;
   showMenu: boolean = false;
 
@@ -23,8 +23,8 @@ export class CitySearchComponent {
   /**
    * Calls service to retrive data by city name applied in input.
    */
-  getWeather() {
-    this.weatherService.getWeatherByCity(this.city).subscribe(
+  getCityList() {
+    this.weatherService.getWeatherByCity(this.cityName).subscribe(
       (data) => {
         this.cities = data.list;
         this.showMenu = true;
@@ -36,9 +36,10 @@ export class CitySearchComponent {
   }
 
   /**
-   * Emits from child component to parent.
-   * 
-   * @param selectedCity 
+   * Emits from child component to parent
+   * when city selected from menu.
+   *
+   * @param selectedCity
    */
   onSelectCity(selectedCity: any) {
     this.showMenu = false;

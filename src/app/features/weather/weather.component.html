@@ -1,10 +1,44 @@
 <div class="weather-card">
   <h1>Weather</h1>
-  <city-search (selectCity)="getWeather($event)"></city-search>
+  <fieldset>
+    <legend>Select units</legend>
+    <div>
+      <input
+        type="radio"
+        id="unit-metric"
+        [value]="'metric'"
+        [(ngModel)]="selectedUnits"
+        (ngModelChange)="selectUnits($event)"
+      />
+      <label for="unit-metric">Metric</label>
+    </div>
+    <div>
+      <input
+        type="radio"
+        id="unit-imperial"
+        [value]="'imperial'"
+        [(ngModel)]="selectedUnits"
+        (ngModelChange)="selectUnits($event)"
+      />
+      <label for="unit-imperial">Imperial</label>
+    </div>
+  </fieldset>
+  <city-search (selectCity)="selectCity($event)"></city-search>
 
   <div *ngIf="weather">
-    <h2>{{ weather.name }}</h2>
-    <p>Temperature: {{ weather.main.temp }} °C</p>
+    <h2>
+      <span>{{ weather.name }}</span>
+    </h2>
+
+    <p class="weather-temp">
+      <img
+        [src]="
+          'http://openweathermap.org/img/w/' + weather.weather[0].icon + '.png'
+        "
+      />
+      <span> {{ weather.main.temp }}</span>
+      <span>{{ selectedUnits == "metric" ? "°C" : "°F" }}</span>
+    </p>
     <p>Weather: {{ weather.weather[0].description }}</p>
   </div>
 </div>
