@@ -65,7 +65,6 @@ export class WeatherComponent implements OnInit {
       .subscribe(
         (data) => {
           this.weather = data;
-          console.log(this.weather);
         },
         (error) => {
           console.error('Error fetching weather data', error);

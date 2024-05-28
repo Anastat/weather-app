@@ -13,7 +13,7 @@
 
 .dropdown {
   position: absolute;
-  margin-top: calc(2rem - 2px);
+  margin-top: calc(3rem - 2px);
   z-index: 1001;
   width: 100%;
   background-color: #fff;
